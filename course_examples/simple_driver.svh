@@ -21,9 +21,11 @@ class simple_driver extends uvm_driver #(simple_item);
      forever begin
        // Get the next data item from sequencer (may block).
        seq_item_port.get_next_item(s_item);
+       phase.raise_objection (this);
        // Execute the item. 
        drive_item(s_item);
        seq_item_port.item_done(); // Consume the request.
+       phase.drop_objection (this);
      end
    endtask : run
 
